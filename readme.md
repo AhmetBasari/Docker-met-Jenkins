@@ -8,7 +8,7 @@ The Jenkins pipeline automates the entire process, including creating the infras
 
 ## Architecture Diagram
 
-![CI/CD Pipeline Architecture](./architecture.png)
+![CI/CD Pipeline Architecture](./images/architecture.png)
 
 _This architecture diagram represents the entire process flow of how Jenkins, Terraform, and Ansible work together to deploy the Python Flask application on AWS._
 
@@ -47,6 +47,8 @@ By completing this project, you will learn:
 4. **Python Flask Application Deployment**:
    - How to build and deploy a Python Flask REST API, connect it to a MySQL database, and configure it to be accessible over the internet.
 
+![Learning Outcomes](./images/learning-outcomes.png)
+
 ## Tools Used
 
 This project leverages the following tools:
@@ -71,21 +73,31 @@ terraform init
 # Apply the Terraform configuration
 terraform apply -auto-approve
 
-2. Configure Jenkins Pipeline
-In Jenkins, create a new pipeline job and point it to your GitHub repository.
-Jenkins will automatically detect the Jenkinsfile in your repository and execute the pipeline.
-The pipeline will:
+2. Deploy the Application Using Jenkins Pipeline
+The Jenkins pipeline automates the following steps:
 
-Provision the AWS infrastructure using Terraform.
-Use the Terraform output to retrieve the EC2 instance's public IP address and pass it dynamically to Ansible.
-Use Ansible to configure the server and deploy the Python Flask application.
-3. Deploy the Application Using Ansible
-The Jenkins pipeline triggers the following steps in Ansible:
+Terraform provisions the EC2 instance and captures the public IP.
+Jenkins dynamically adds the public IP to Ansible's inventory.
+Ansible deploys the Flask application on the EC2 instance.
+Once the Jenkins pipeline has completed, the Flask application will be running and accessible via the public IP address of the EC2 instance.
 
-Installing Python, MySQL, and Flask dependencies on the EC2 instance.
-Cloning the Flask app from your repository.
-Running the Flask application and ensuring it's connected to the MySQL database.
-Once the pipeline completes, the application will be accessible via the public IP of the EC2 instance.
+3. Ansible Playbook for Application Deployment
+Ansible is responsible for the following tasks:
+
+Installing Python 3 and MySQL server on the EC2 instance.
+Installing Flask and other required Python packages (from requirements.txt).
+Deploying the Flask application and configuring it to connect to the MySQL database.
+Project File Structure
+The following files should be present in the project directory:
+
+203-jenkins-ansible-bookstore-api-on-python-flask-mysql (folder)
+|
+|---- readme.md            # Project description
+|---- bookstore-api.py     # Python Flask Web API (main application)
+|---- requirements.txt     # List of Flask modules and dependencies
+|---- main.tf              # Terraform configuration file
+|---- deploy-bookstore.yml # Ansible playbook for deploying the application
+|---- inventory.yml        # Ansible inventory file (generated dynamically by Jenkins)
 
 What Will You Learn?
 Terraform: Automate the creation of AWS infrastructure using Terraform's infrastructure-as-code (IaC) capabilities.
