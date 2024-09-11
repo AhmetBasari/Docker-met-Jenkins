@@ -12,7 +12,7 @@ The Jenkins pipeline automates the entire process, including creating the infras
 
 _This architecture diagram represents the entire process flow of how Jenkins, Terraform, and Ansible work together to deploy the Python Flask application on AWS._
 
-## Project Flow:
+## Project Flow
 
 1. **Terraform**:
    - Creates an EC2 instance on AWS.
@@ -66,14 +66,17 @@ This project leverages the following tools:
 
 In the project directory, there is a Terraform configuration file (`main.tf`) that provisions the required EC2 instance on AWS.
 
+Run the following commands to provision the infrastructure:
+
 ```bash
 # Initialize Terraform
 terraform init
 
 # Apply the Terraform configuration
 terraform apply -auto-approve
+```
+### 2. Deploy the Application Using Jenkins Pipeline
 
-2. Deploy the Application Using Jenkins Pipeline
 The Jenkins pipeline automates the following steps:
 
 Terraform provisions the EC2 instance and captures the public IP.
@@ -81,13 +84,15 @@ Jenkins dynamically adds the public IP to Ansible's inventory.
 Ansible deploys the Flask application on the EC2 instance.
 Once the Jenkins pipeline has completed, the Flask application will be running and accessible via the public IP address of the EC2 instance.
 
-3. Ansible Playbook for Application Deployment
+### 3. Ansible Playbook for Application Deployment
+
 Ansible is responsible for the following tasks:
 
 Installing Python 3 and MySQL server on the EC2 instance.
 Installing Flask and other required Python packages (from requirements.txt).
 Deploying the Flask application and configuring it to connect to the MySQL database.
-Project File Structure
+
+# Project File Structure
 The following files should be present in the project directory:
 
 203-jenkins-ansible-bookstore-api-on-python-flask-mysql (folder)
@@ -99,11 +104,13 @@ The following files should be present in the project directory:
 |---- deploy-bookstore.yml # Ansible playbook for deploying the application
 |---- inventory.yml        # Ansible inventory file (generated dynamically by Jenkins)
 
-What Will You Learn?
+# What Will You Learn?
+
 Terraform: Automate the creation of AWS infrastructure using Terraform's infrastructure-as-code (IaC) capabilities.
 Jenkins: Create a fully automated CI/CD pipeline that provisions infrastructure, configures servers, and deploys applications.
 Ansible: Learn how to write playbooks to automate the installation of software and configuration of servers.
 Python Flask: Develop and deploy a simple RESTful API in Python using Flask, integrated with a MySQL database.
 
-Conclusion
+# Conclusion
+
 By completing this project, you will gain hands-on experience in automating infrastructure provisioning, server configuration, and application deployment using industry-standard tools such as Jenkins, Terraform, and Ansible.
