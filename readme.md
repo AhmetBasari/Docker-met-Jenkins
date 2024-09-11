@@ -8,7 +8,7 @@ The Jenkins pipeline automates the entire process, including creating the infras
 
 ## Architecture Diagram
 
-![CI/CD Pipeline Architecture](./images/architecture.png)
+![CI/CD Pipeline Architecture](./architecture.png)
 
 _This architecture diagram represents the entire process flow of how Jenkins, Terraform, and Ansible work together to deploy the Python Flask application on AWS._
 
@@ -71,31 +71,21 @@ terraform init
 # Apply the Terraform configuration
 terraform apply -auto-approve
 
-2. Deploy the Application Using Jenkins Pipeline
-The Jenkins pipeline automates the following steps:
+2. Configure Jenkins Pipeline
+In Jenkins, create a new pipeline job and point it to your GitHub repository.
+Jenkins will automatically detect the Jenkinsfile in your repository and execute the pipeline.
+The pipeline will:
 
-Terraform provisions the EC2 instance and captures the public IP.
-Jenkins dynamically adds the public IP to Ansible's inventory.
-Ansible deploys the Flask application on the EC2 instance.
-Once the Jenkins pipeline has completed, the Flask application will be running and accessible via the public IP address of the EC2 instance.
+Provision the AWS infrastructure using Terraform.
+Use the Terraform output to retrieve the EC2 instance's public IP address and pass it dynamically to Ansible.
+Use Ansible to configure the server and deploy the Python Flask application.
+3. Deploy the Application Using Ansible
+The Jenkins pipeline triggers the following steps in Ansible:
 
-3. Ansible Playbook for Application Deployment
-Ansible is responsible for the following tasks:
-
-Installing Python 3 and MySQL server on the EC2 instance.
-Installing Flask and other required Python packages (from requirements.txt).
-Deploying the Flask application and configuring it to connect to the MySQL database.
-Project File Structure
-The following files should be present in the project directory:
-
-203-jenkins-ansible-bookstore-api-on-python-flask-mysql (folder)
-|
-|---- readme.md            # Project description
-|---- bookstore-api.py     # Python Flask Web API (main application)
-|---- requirements.txt     # List of Flask modules and dependencies
-|---- main.tf              # Terraform configuration file
-|---- deploy-bookstore.yml # Ansible playbook for deploying the application
-|---- inventory.yml        # Ansible inventory file (generated dynamically by Jenkins)
+Installing Python, MySQL, and Flask dependencies on the EC2 instance.
+Cloning the Flask app from your repository.
+Running the Flask application and ensuring it's connected to the MySQL database.
+Once the pipeline completes, the application will be accessible via the public IP of the EC2 instance.
 
 What Will You Learn?
 Terraform: Automate the creation of AWS infrastructure using Terraform's infrastructure-as-code (IaC) capabilities.
@@ -105,12 +95,3 @@ Python Flask: Develop and deploy a simple RESTful API in Python using Flask, int
 
 Conclusion
 By completing this project, you will gain hands-on experience in automating infrastructure provisioning, server configuration, and application deployment using industry-standard tools such as Jenkins, Terraform, and Ansible.
-
-### Explanation:
-- The **Architecture Diagram** is referenced with `![CI/CD Pipeline Architecture](./images/architecture.png)`. This assumes you've uploaded the diagram to your repository's `images` folder. If it's in the root directory, change the path to `./architecture.png`.
-  
-- I've added more detail to the **Project Flow**, **Learning Outcomes**, and **Tools Used** sections.
-
-- The "What Will You Learn?" section highlights the key skills you'll gain from this project.
-
-You can now download the diagram from our chat, add it to your GitHub repository, and update the link in the README accordingly.
