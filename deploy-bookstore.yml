@@ -1,0 +1,40 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Update the server
+      yum:
+        name: "*"
+        state: latest
+
+    - name: Install required packages (Python3, MySQL)
+      yum:
+        name:
+          - python3
+          - python3-pip
+          - mysql-server
+        state: present
+
+    - name: Start MySQL service
+      service:
+        name: mysqld
+        state: started
+        enabled: yes
+
+    - name: Install Python dependencies
+      pip:
+        name:
+          - flask
+          - flask-mysql
+        state: present
+
+    - name: Clone Bookstore API Repository
+      git:
+        repo: 'https://github.com/AhmetBasari/Jenkins-ansible-bookstore-api-on-python-flask-mysql.git'
+        dest: /home/ec2-user/bookstore-api
+
+    - name: Start the Bookstore API
+      shell: |
+        nohup python3 /home/ec2-user/bookstore-api/bookstore-api.py &
+      args:
+        chdir: /home/ec2-user/bookstore-api
