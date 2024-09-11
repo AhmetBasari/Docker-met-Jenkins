@@ -96,13 +96,15 @@ Deploying the Flask application and configuring it to connect to the MySQL datab
 The following files should be present in the project directory:
 
 203-jenkins-ansible-bookstore-api-on-python-flask-mysql (folder)
-|
+
+```bash
 |---- readme.md            # Project description
 |---- bookstore-api.py     # Python Flask Web API (main application)
 |---- requirements.txt     # List of Flask modules and dependencies
 |---- main.tf              # Terraform configuration file
 |---- deploy-bookstore.yml # Ansible playbook for deploying the application
 |---- inventory.yml        # Ansible inventory file (generated dynamically by Jenkins)
+```
 
 ## What Will You Learn?
 
