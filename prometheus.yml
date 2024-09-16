@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 15s  # How frequently to scrape metrics
+
+scrape_configs:
+  - job_name: 'flask-app'  # Name of your Flask app
+    static_configs:
+      - targets: ['localhost:5000']  # Flask application running on localhost

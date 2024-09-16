@@ -5,13 +5,11 @@ pipeline {
         stage('Provision EC2 with Terraform') {
             steps {
                 script {
-                    // Run Terraform and capture output
                     def output = sh(script: 'terraform apply -auto-approve -json', returnStdout: true).trim()
                     def jsonOutput = readJSON(text: output)
                     def instanceIp = jsonOutput.outputs.instance_ip.value
                     echo "Instance IP: ${instanceIp}"
 
-                    // Dynamically create Ansible inventory file
                     writeFile file: 'inventory.yml', text: """
                     all:
                       hosts:
@@ -25,8 +23,14 @@ pipeline {
 
         stage('Deploy Application with Ansible') {
             steps {
-                // Deploy with Ansible
                 sh 'ansible-playbook -i inventory.yml deploy-bookstore.yml'
+            }
+        }
+
+        stage('Configure Prometheus') {
+            steps {
+                sh 'ssh -i /path/to/your/private-key.pem ec2-user@${instanceIp} sudo systemctl restart prometheus'
+                echo 'Prometheus restarted for monitoring Flask app.'
             }
         }
     }
