@@ -1,5 +1,5 @@
-all:
+all:  
   hosts:
-    your-ec2-public-ip:
-      ansible_user: ec2-user
-      ansible_ssh_private_key_file: /path/to/your/private-key.pem
+      {{ instance_ip }}:
+         ansible_user: ec2-user
+         ansible_ssh_private_key_file: /path/to/your/private-key.pem

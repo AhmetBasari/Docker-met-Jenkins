@@ -27,33 +27,6 @@
           - flask
           - flask-mysql
         state: present
-    
-    - name: Install Prometheus
-      get_url:
-        url: https://github.com/prometheus/prometheus/releases/download/v2.30.3/prometheus-2.30.3.linux-amd64.tar.gz
-        dest: /tmp/prometheus.tar.gz
-
-    - name: Extract Prometheus
-      unarchive:
-        src: /tmp/prometheus.tar.gz
-        dest: /opt/
-        remote_src: yes
-
-    - name: Configure Prometheus
-      copy:
-        dest: /opt/prometheus-2.30.3.linux-amd64/prometheus.yml
-        content: |
-          global:
-            scrape_interval: 15s
-
-          scrape_configs:
-            - job_name: 'flask-app'
-              static_configs:
-                - targets: ['localhost:5000']
-
-    - name: Start Prometheus
-      shell: |
-        nohup /opt/prometheus-2.30.3.linux-amd64/prometheus --config.file=/opt/prometheus-2.30.3.linux-amd64/prometheus.yml &
 
     - name: Clone Bookstore API Repository
       git:
